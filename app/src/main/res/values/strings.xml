@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AppCompatIssue</string>
+    <string name="greeting_text">Hello world from Strings</string>
 </resources>
