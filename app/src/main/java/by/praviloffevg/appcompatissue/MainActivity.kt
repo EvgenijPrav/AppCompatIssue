@@ -1,14 +1,17 @@
 package by.praviloffevg.appcompatissue
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.BaseContextWrappingDelegate
 import kotlinx.android.synthetic.main.activity_main.greetingTV
 
 class MainActivity : AppCompatActivity() {
 
-    override fun attachBaseContext(newBase: Context) {
-        super.attachBaseContext(CustomContextWrapper.wrap(newBase))
+    private var baseContextWrappingDelegate: AppCompatDelegate? = null
+
+    override fun getDelegate() = baseContextWrappingDelegate ?: BaseContextWrappingDelegate(super.getDelegate()).apply {
+        baseContextWrappingDelegate = this
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,5 +19,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         greetingTV.text = getString(R.string.greeting_text)
+
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragmentContainer, BlankFragment.newInstance())
+            .commit()
     }
 }
